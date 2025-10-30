@@ -99,15 +99,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // --- Method: Generate Multiplication Table (1–10) ---
     private void generateMultiplicationTable(int baseNumber) {
-        multiplicationResultsList.clear(); // Clear any previous table
+        multiplicationResultsList.clear();
 
         for (int i = 1; i <= 10; i++) {
             String rowResult = baseNumber + " × " + i + " = " + (baseNumber * i);
             multiplicationResultsList.add(rowResult);
         }
 
-        listAdapter.notifyDataSetChanged(); // Refresh the ListView
+        listAdapter.notifyDataSetChanged();
     }
 }

@@ -68,15 +68,14 @@ public class HistoryActivity extends AppCompatActivity {
                 .setTitle("Remove Entry")
                 .setMessage("Do you want to delete this number from your history?")
                 .setPositiveButton("Yes", (dialog, which) -> {
-                    // Remove from both displayed list and MainActivity's static list
+
                     int removedNumber = Integer.parseInt(generatedHistoryList.get(indexPosition));
                     generatedHistoryList.remove(indexPosition);
                     MainActivity.generatedNumbersHistory.remove(Integer.valueOf(removedNumber));
 
-                    // Refresh adapter
+
                     historyAdapter.notifyDataSetChanged();
 
-                    // Show feedback
                     Toast.makeText(HistoryActivity.this, "Entry removed: " + removedNumber, Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("No", null)
