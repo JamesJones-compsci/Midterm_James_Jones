@@ -1,21 +1,23 @@
 package com.example.midterm_james_jones;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
 import java.util.ArrayList;
 
 public class HistoryActivity extends AppCompatActivity {
+
 
 
     private ListView listViewGeneratedHistory;
@@ -38,14 +40,13 @@ public class HistoryActivity extends AppCompatActivity {
         });
 
 
+
         listViewGeneratedHistory = findViewById(R.id.listViewHistory);
 
 
-        Intent retrieveIntent = getIntent();
-        generatedHistoryList = retrieveIntent.getStringArrayListExtra("historyList");
-
-        if (generatedHistoryList == null) {
-            generatedHistoryList = new ArrayList<>();
+        generatedHistoryList = new ArrayList<>();
+        for (Integer number : MainActivity.generatedNumbersHistory) {
+            generatedHistoryList.add(String.valueOf(number));
         }
 
 
@@ -61,14 +62,22 @@ public class HistoryActivity extends AppCompatActivity {
         });
     }
 
+
     private void showDeleteConfirmationDialog(int indexPosition) {
         new AlertDialog.Builder(HistoryActivity.this)
                 .setTitle("Remove Entry")
                 .setMessage("Do you want to delete this number from your history?")
                 .setPositiveButton("Yes", (dialog, which) -> {
+                    // Remove from both displayed list and MainActivity's static list
+                    int removedNumber = Integer.parseInt(generatedHistoryList.get(indexPosition));
                     generatedHistoryList.remove(indexPosition);
+                    MainActivity.generatedNumbersHistory.remove(Integer.valueOf(removedNumber));
+
+                    // Refresh adapter
                     historyAdapter.notifyDataSetChanged();
-                    Toast.makeText(HistoryActivity.this, "Entry removed", Toast.LENGTH_SHORT).show();
+
+                    // Show feedback
+                    Toast.makeText(HistoryActivity.this, "Entry removed: " + removedNumber, Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("No", null)
                 .show();
